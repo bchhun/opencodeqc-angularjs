@@ -11,9 +11,8 @@
     
     <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
 
-    <script src="js/prefixfree.min.js"></script>
     <script src="js/angular-1.0.0rc10.min.js"></script>
-    <script src="slideshow.js"></script>
+    <script src="js/slideshow.js"></script>
     <script src="js/css-edit.js"></script>
     <script src="js/css-snippets.js"></script>
     <script src="js/css-controls.js"></script>
@@ -25,6 +24,3 @@
     <link href="css/talk.css" rel="stylesheet" />
 </head>
 <body data-duration="10">
-    <!--[if lt IE 7]>
-        <p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p>
-    <![endif]-->
