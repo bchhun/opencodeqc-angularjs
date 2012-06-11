@@ -16,7 +16,13 @@
             function(){
                 $("input[name=prenom]").keyup(
                     function(){
-                        $("h1 span").html($(this).val());
+                    	var value = $(this).val();
+
+                    	if (value !== "") {
+                    		$("h1 span").html(value);	
+                    	}else{
+                    		$("h1 span").html("toi");
+                    	}
                     }
                 );
             }
@@ -24,7 +30,7 @@
     </script>
 </head>
 <body>
-    <section>
+    <section class="demo">
         <h1>Allo <span>toi</span> !</h1>    
         <form>
             <input type="text" name="prenom">

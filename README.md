@@ -9,6 +9,7 @@ opencodeqc-angularjs
 
 4. 3 exemples d'applications
 
-    * Un formulaire Hello World
-    * Un formulaire de saisie de produit avec prix et 
-      calcul du total
+* Un formulaire Hello World
+* Un formulaire de saisie de produit avec prix et 
+  calcul du total
+* ...
