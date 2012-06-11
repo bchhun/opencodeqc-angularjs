@@ -7,12 +7,17 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <title>OpenCode Québec - Présentation d'AngularJs</title>
-    
+    <title>Formulaire Hello World</title>
     <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
-
+    <link rel="stylesheet" href="css/main.css">    
     <script src="js/angular-1.0.0rc10.min.js"></script>
-    <link rel="stylesheet" href="css/main.css">
 </head>
-<body class="impress-not-supported">
-    <div id="impress">
+<body>
+    <section ng-app>
+        <h1>Allo <span>{{prenom || 'toi'}}</span> !</h1>    
+        <form>
+            <input ng-model="prenom" type="text" name="prenom">
+        </form>
+    </section>
+</body>
+</html>
