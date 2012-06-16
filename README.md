@@ -16,12 +16,14 @@ Présentation des outils évalués
 * Un framework MVC
 * Un modèle de données qui est simple et extensible
 * Gestion d'événements par programmation déclarative
-** Facilite l'aperçu global
+ * Facilite l'aperçu global
 
 ### Présentation d'AngularJS
 
 * Un framework MVC
 * Une synchronisation bi-directionnel des données avec le UI
+* Facilité d'écriture des unit tests
+* Le comportement global de l'application se voit dans le HTML
 
 3 exemples d'application web
 ----------------------------
@@ -47,9 +49,9 @@ Présentation des outils évalués
 #### Specs
 
 * Afficher une liste de produit ayant:
-** un nom
-** une quantité
-** un prix
+ * un nom
+ * une quantité
+ * un prix
 * Permettre d'ajouter et de supprimer un produit
 * Calculer le prix total avec les taxes
 
