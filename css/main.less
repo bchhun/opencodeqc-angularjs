@@ -1,4 +1,5 @@
 @import "reset.less";
+@import "impress.less";
 
 body {
     background: #123456;
@@ -10,12 +11,16 @@ body {
     padding: 60px 40px;
 }
 
-section.demo * {
+body.demo {
 	color:white;
+
+    h1, input, label {color:white}
+    label, input {font-size:1.2em; line-height:1.2em;}
+    input {color:black;}
+    section { width:100%;}
 }
 
 input {font-size:30px;}
-.gist {font-size:20px;}
-.gist-meta {display:none;}
 
-@import "impress.less";
+a:link, a:visited, a:hover, a:active {color:#DF775E; text-shadow:none;}
+

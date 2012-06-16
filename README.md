@@ -16,7 +16,7 @@ Présentation des outils évalués
 * Un framework MVC
 * Un modèle de données qui est simple et extensible
 * Gestion d'événements par programmation déclarative
- * Facilite l'aperçu global
+ * Facilite l'aperçu global de notre application
 
 ### Présentation d'AngularJS
 
@@ -53,5 +53,5 @@ Présentation des outils évalués
  * une quantité
  * un prix
 * Permettre d'ajouter et de supprimer un produit
-* Calculer le prix total avec les taxes
+* Calculer le prix total avec nos taxes composées
 
