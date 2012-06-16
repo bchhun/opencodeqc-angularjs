@@ -7,9 +7,9 @@ Présentation des outils évalués
 ### jQuery 
 
 * Une librairie Javascript qui nous facilite grandement la vie pour "jouer" avec le DOM
-** Modifier des attributs
-** Ajouter/Éditer/Supprimer des éléments du DOM
-** Lier des fonctions à des événements
+ * Modifier des attributs
+ * Ajouter/Éditer/Supprimer des éléments du DOM
+ * Lier des fonctions à des événements
 
 ### Backbone.js
 
