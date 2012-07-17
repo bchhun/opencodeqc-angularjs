@@ -22,7 +22,6 @@
                         <button class="ajouter">Ajouter un item</button>
                     </th>
                 </tr>
-                
             </table>
             <hr />
             <table id="total">
@@ -181,7 +180,7 @@
                     return calcul;
                 }
                 , formatMoney: function(val){
-                    return "$" + val.formatMoney(2, '.', ",");
+                    return "$ " + val.formatMoney(2, '.', ",");
                 }
                 , render: function( model ) {
 
