@@ -1,9 +1,32 @@
 <!doctype html>
-<html>
-  
-  <head></head>
-  <body>
-    <h1>Nope.</h1>
-    <iframe width="600" height="315" src="http://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-  </body>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Formulaire Hello World</title>
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="../../css/main.css">    
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript">
+    $(document).ready(
+      function(){
+        $("input[name=prenom]").keyup(
+          function(){
+            var value = $(this).val();
+            
+            $("h1 span").html(
+              (value !== "") ? value : "toi"
+            );  
+          }
+        );
+      }
+    );
+  </script> 
+</head>
+<body class="demo">
+    <section>
+        <h1>Penses-y même pas !</h1>
+        <iframe width="600" height="315" src="http://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
+    </section>
+</body>
 </html>
