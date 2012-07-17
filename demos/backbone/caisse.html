@@ -61,13 +61,11 @@
                 , events: {
                     'click button.ajouter':         'ajouterItem'
                     , 'click button.supprimer' :    'supprimerItem'
-                    , 'keyup input.qte':            'renderTotal'
-                    , 'keyup input.prix':           'renderTotal'
+                    , 'keyup input[type=text]':     'updateItemList'
+                    , 'keyup input[type=number]':   'updateItemList'
                 }
 
                 , initialize: function() {
-                    logit("CaisseView initialize");
-                    
 
                     this.rowTemplate = '<tr class="tmpl">' +
                             '<td><input class="nom" type="text" value="<%= nom %>"></td>' +
@@ -85,8 +83,9 @@
                     _.bindAll(this, 'render');
                 }
 
-                , initializeItemList : function(){
-                    logit("initializeItemList");
+                , initializeItemList : function(addFreshData){
+
+                    addFreshData = addFreshData || true;
 
                     var thisView = this;
 
@@ -97,17 +96,25 @@
                         thisView.renderTotal();
                     });
 
-                    this.itemList.add(
-                        new Item({nom: "Barbie", qte: 1, prix:19.95})
-                    );
-                    this.itemList.add(
-                        new Item({nom: "Ken", qte: 1, prix:19.95})
-                    );
-                    
+                    this.itemList.bind("change", function( model ){
+                        thisView.renderTotal();
+                    });
+
+                    this.itemList.bind("remove", function( model ){
+                        thisView.renderTotal();
+                    });
+
+                    if (addFreshData) {
+                        this.itemList.add(
+                            new Item({nom: "Barbie", qte: 1, prix:19.95})
+                        );
+                        this.itemList.add(
+                            new Item({nom: "Ken", qte: 1, prix:19.95})
+                        );    
+                    }
                 }
 
                 , ajouterItem: function() {
-                    logit("CaisseView ajouterItem");
 
                     this.itemList.add(
                         new Item({nom:"nouveau", qte:1, prix:1.99})
@@ -116,21 +123,28 @@
                     return false;
                 }
 
-                , supprimerItem : function(){
-                    logit("CaisseView supprimerItem");   
+                , supprimerItem : function(e){
+                    logit("supprimerItem");
+
+                    var button = $(e.currentTarget)
+                        , tr = button.parents("tr")
+                        , indexToRemove = tr.index() - 1
+                        , modelToDelete = this.itemList.at(indexToRemove)
+                    ;
+
+                    this.itemList.remove(modelToDelete);
+
+                    $(this.tagName + " tbody").children().slice(indexToRemove + 1).detach().remove();
 
                     return false;
                 }
                 , calculerSousTotal : function(){
                     var sousTotal = 0;
-                    logit("calculerSousTotal");
 
                     for (var i = 0; i < this.itemList.length; i++) {
                         var data = this.itemList.models[i].attributes;
                         sousTotal += data.qte * data.prix;    
                     };
-
-                    logit(sousTotal);
 
                     return sousTotal;
                 }
@@ -153,7 +167,6 @@
                 }
 
                 , calculerTout: function(){ 
-                    // logit("calculerTout");
 
                     var calcul = {
                         sousTotal: this.formatMoney(this.calculerSousTotal())
@@ -168,16 +181,36 @@
                     return "$" + val.formatMoney(2, '.', ",");
                 }
                 , render: function( model ) {
-                    logit("CaisseView render");
 
-                    var data = model.attributes
+                    var data = model.toJSON()
                         , tmpl = _.template(this.rowTemplate, data);
 
                     $(this.tagName).append(tmpl);                    
                 }
 
+                , updateItemList: function(e){
+
+                    logit("updateItemList");
+
+                    var field = $(e.currentTarget)
+                        , tr = field.parents("tr")
+                        , newNom = tr.find("input.nom").val()
+                        , newQte = tr.find("input.qte").val()
+                        , newPrix = tr.find("input.prix").val()
+                        , indexToUpdate = tr.index() - 1
+                    ;
+
+                    for (var i = 0; i < this.itemList.length; i++) {
+                        var m = this.itemList.models[i];
+
+                        if (i === indexToUpdate) {
+                            m.set({nom: newNom, prix: newPrix, qte: newQte});
+                        }
+                    }
+
+                    return false;
+                }
                 , renderTotal: function(){
-                    logit("renderTotal");
 
                     var data = this.calculerTout()
                         , tmpl = _.template(this.totalTemplate, data);
