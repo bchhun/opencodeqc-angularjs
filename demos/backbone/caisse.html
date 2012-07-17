@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <title>Caisse enregistreuse</title>
+    <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="../../css/main.css"> 
+</head>
+<body class="demo">
+    <section>
+        <section>
+            <table id="items">
+                <tr>
+                    <th>Item</th>
+                    <th>Quantité</th>
+                    <th>Prix à l'unité</th>
+                    <th>
+                        <button class="ajouter">Ajouter un item</button>
+                    </th>
+                </tr>
+                
+            </table>
+            <hr />
+            <table id="total">
+            </table>
+    </section>
+
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="../../js/underscore-min.js"></script>
+    <script type="text/javascript" src="../../js/backbone-min.js"></script>
+    <script type="text/javascript">
+        (function($){
+
+            function logit(msg) {
+
+                if (typeof console != undefined) {
+                    console.log(msg);
+                }
+
+            }
+
+            var Item = Backbone.Model.extend()
+                , ItemList = Backbone.Collection.extend({
+                    initialize: function(){
+                        logit("ItemList initialize");
+                    }
+                    , model: Item
+                });
+
+            CaisseView = Backbone.View.extend({
+                el: 'section'
+
+                , tagName: 'table#items'
+                , totalTagName : 'table#total'
+
+                , events: {
+                    'click button.ajouter':         'ajouterItem'
+                    , 'click button.supprimer' :    'supprimerItem'
+                    , 'change input.qte':           'renderTotal'
+                    , 'change input.prix':          'renderTotal'
+                }
+
+                , initialize: function() {
+                    logit("CaisseView initialize");
+                    
+
+                    this.rowTemplate = '<tr class="tmpl">' +
+                            '<td><input class="nom" type="text" value="<%= nom %>"></td>' +
+                            '<td><input class="qte" type="number" value="<%= qte %>"></td>' +
+                            '<td><input class="prix" type="number" value="<%= prix %>"></td>' +
+                            '<td><button class="supprimer">Supprimer</button></td></tr>';
+
+                    this.totalTemplate = '<tr><td>Sous-total:</td><td class="sous-total"><%= sousTotal %></td></tr>' +
+                        '<tr><td>TPS:</td><td class="tps"><%= tps %></td></tr>' +
+                        '<tr><td>TVQ:</td><td class="tvq"><%= tvq %></td></tr>' +
+                        '<tr><td>Total:</td><td class="total"><%= total %></td></tr>';
+
+                    this.initializeItemList();
+
+                    _.bindAll(this, 'render');
+                }
+
+                , initializeItemList : function(){
+                    logit("initializeItemList");
+
+                    var thisView = this;
+
+                    this.itemList = new ItemList();
+                    
+                    this.itemList.bind("add", function( model ){
+                        thisView.render( model );
+                        thisView.renderTotal();
+                    });
+
+                    this.itemList.add(
+                        new Item({nom: "Barbie", qte: 1, prix:19.95})
+                    );
+                    this.itemList.add(
+                        new Item({nom: "Ken", qte: 1, prix:19.95})
+                    );
+                    
+                }
+
+                , ajouterItem: function() {
+                    logit("CaisseView ajouterItem");
+
+                    this.itemList.add(
+                        new Item({nom:"nouveau", qte:1, prix:1.99})
+                    );
+
+                    return false;
+                }
+
+                , supprimerItem : function(){
+                    logit("CaisseView supprimerItem");   
+
+                    return false;
+                }
+                , calculerSousTotal : function(){
+                    var total = 0;
+
+                    _.each( 
+                        this.itemList
+                        , function(i){
+                            logit("_each");
+
+                            var data = i.attributes;
+                            logit(data);
+
+                            total += data.qte * data.prix;    
+                        }
+                    );
+
+                    return total;
+                }
+
+                , calculerTps: function(){
+                    // logit("calculerTps");
+                    var tps = 0.05;
+                    return this.calculerSousTotal() * tps;
+                }
+
+                , calculerTvq: function(){
+                    // logit("calculerTvq");
+                    var tvq = 0.095;
+                    return (this.calculerSousTotal() + this.calculerTps()) * tvq; 
+                }
+
+                , calculerTotal: function(){
+                    // logit("calculerTotal");
+                    return this.calculerSousTotal() + this.calculerTps() + this.calculerTvq();
+                }
+
+                , calculerTout: function(){ 
+                    // logit("calculerTout");
+
+                    var calcul = {
+                        sousTotal: this.calculerSousTotal()
+                        , tps: this.calculerTps()
+                        , tvq: this.calculerTps()
+                        , total: this.calculerTotal()     
+                    }
+
+                    return calcul;
+                }
+
+                , render: function( model ) {
+                    logit("CaisseView render");
+
+                    var data = model.attributes
+                        , tmpl = _.template(this.rowTemplate, data);
+
+                    $(this.tagName).append(tmpl);                    
+                }
+
+                , renderTotal: function(){
+                    logit("renderTotal");
+
+                    var data = this.calculerTout()
+                        , tmpl = _.template(this.totalTemplate, data);
+
+                    $(this.totalTagName).html(tmpl);
+
+                }
+            });
+
+            var view = new CaisseView();
+        })(jQuery);
+    </script>
+</body>
+</html>
