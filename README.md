@@ -25,8 +25,8 @@ Présentation des outils évalués
 * Facilité d'écriture des unit tests
 * Le comportement global de l'application se voit dans le HTML
 
-3 exemples d'application web
-----------------------------
+2 exemples simples d'application web
+------------------------------------
 
 ### Un formulaire Hello World
 
@@ -35,14 +35,6 @@ Présentation des outils évalués
 * Afficher un champ texte qui demande un prénom
 * Saluer le prénom lorsque du texte est entré
 * Saluer "toi" si aucun texte
-
-### Un filtre à mots
-
-#### Specs
-
-* Afficher un champ texte qui demande des lettres
-* Afficher une liste de mots
-* Faire disparaître les mots n'ayant pas les lettres dans le champ texte
 
 ### La caisse enregistreuse
 
