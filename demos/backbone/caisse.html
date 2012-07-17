@@ -31,6 +31,10 @@
     <script type="text/javascript" src="../../js/backbone-min.js"></script>
     <script type="text/javascript">
         (function($){
+            Number.prototype.formatMoney = function(c, d, t){
+                var n = this, c = isNaN(c = Math.abs(c)) ? 2 : c, d = d == undefined ? "," : d, t = t == undefined ? "." : t, s = n < 0 ? "-" : "", i = parseInt(n = Math.abs(+n || 0).toFixed(c)) + "", j = (j = i.length) > 3 ? j % 3 : 0;
+                return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+            };
 
             function logit(msg) {
 
@@ -57,8 +61,8 @@
                 , events: {
                     'click button.ajouter':         'ajouterItem'
                     , 'click button.supprimer' :    'supprimerItem'
-                    , 'change input.qte':           'renderTotal'
-                    , 'change input.prix':          'renderTotal'
+                    , 'keyup input.qte':            'renderTotal'
+                    , 'keyup input.prix':           'renderTotal'
                 }
 
                 , initialize: function() {
@@ -118,21 +122,17 @@
                     return false;
                 }
                 , calculerSousTotal : function(){
-                    var total = 0;
+                    var sousTotal = 0;
+                    logit("calculerSousTotal");
 
-                    _.each( 
-                        this.itemList
-                        , function(i){
-                            logit("_each");
+                    for (var i = 0; i < this.itemList.length; i++) {
+                        var data = this.itemList.models[i].attributes;
+                        sousTotal += data.qte * data.prix;    
+                    };
 
-                            var data = i.attributes;
-                            logit(data);
+                    logit(sousTotal);
 
-                            total += data.qte * data.prix;    
-                        }
-                    );
-
-                    return total;
+                    return sousTotal;
                 }
 
                 , calculerTps: function(){
@@ -156,15 +156,17 @@
                     // logit("calculerTout");
 
                     var calcul = {
-                        sousTotal: this.calculerSousTotal()
-                        , tps: this.calculerTps()
-                        , tvq: this.calculerTps()
-                        , total: this.calculerTotal()     
+                        sousTotal: this.formatMoney(this.calculerSousTotal())
+                        , tps: this.formatMoney(this.calculerTps())
+                        , tvq: this.formatMoney(this.calculerTps())
+                        , total: this.formatMoney(this.calculerTotal())
                     }
 
                     return calcul;
                 }
-
+                , formatMoney: function(val){
+                    return "$" + val.formatMoney(2, '.', ",");
+                }
                 , render: function( model ) {
                     logit("CaisseView render");
 
