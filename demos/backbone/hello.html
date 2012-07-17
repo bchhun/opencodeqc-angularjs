@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Formulaire Hello World</title>
+  <link href='http://fonts.googleapis.com/css?family=Lato:400,700' rel='stylesheet' type='text/css'>
+  <link rel="stylesheet" href="../../css/main.css">    
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+  <script type="text/javascript" src="../../js/underscore-min.js"></script>
+  <script type="text/javascript" src="../../js/backbone-min.js"></script>
+  <script type="text/javascript">
+    (function($){
+
+      var HelloView = Backbone.View.extend({    
+        
+        el: $('section')
+        
+        , events : {
+          'change #prenom': "switchToi"
+        }
+
+        , initialize: function(){
+
+          console.log("init");
+
+          _.bindAll(this, 'render');
+
+          this.render();
+
+        }
+        , render: function(){
+
+          console.log("render");
+
+          $(this.el).append("<ul> <li>hello world</li> </ul>");
+        }
+
+        , switchToi : function(){
+
+          console.log("switchToi");
+
+          var prenom = $("input[name=prenom]").val();
+
+          $("h1 span").html(prenom || "toi");
+        }
+      });
+
+      var helloView = new HelloView();
+
+    })(jQuery);
+  </script>
+</head>
+<body class="demo">
+    <section>
+        <h1>Allo <span>toi</span> !</h1>    
+        <form>
+            <label for="prenom">Qui ?</label>
+            &nbsp;
+            <input type="text" name="prenom">
+        </form>
+    </section>
+</body>
+</html>
